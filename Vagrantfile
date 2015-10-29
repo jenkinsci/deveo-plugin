@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
     wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
     sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
     sudo apt-get update
-    sudo apt-get install openjdk-7-jdk jenkins maven -y
+    sudo apt-get install openjdk-7-jdk jenkins maven git mercurial subversion -y
 
     # Run Jenkins as the vagrant user
     sudo sed -i 's/^JENKINS_USER.*/JENKINS_USER=vagrant/;s/^JENKINS_GROUP.*/JENKINS_GROUP=vagrant/' /etc/default/jenkins
@@ -42,6 +42,11 @@ EOF
     # Stop the jenkins service so that hpi:run doesn't complain about 8080 port
     sudo service jenkins stop
     sudo update-rc.d jenkins disable
+
+    # Configuring dev.deveo.com hostname
+    if ! grep "^10.11.12.13 dev.deveo.com$" /etc/hosts &> /dev/null ; then
+        echo '10.11.12.13 dev.deveo.com' | sudo tee -a /etc/hosts > /dev/null
+    fi
   SHELL
 end
 
