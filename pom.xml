@@ -6,20 +6,20 @@
         <version>1.627</version>
     </parent>
 
-    <artifactId>deveo</artifactId>
+    <artifactId>helixteamhub</artifactId>
     <version>1.1.2-SNAPSHOT</version>
     <packaging>hpi</packaging>
-    <name>Deveo Plugin</name>
-    <description>Creates build events to Deveo</description>
-    <url>https://wiki.jenkins-ci.org/display/JENKINS/Deveo+Plugin</url>
+    <name>Helix TeamHub Plugin</name>
+    <description>Creates build events to Helix TeamHub</description>
+    <url>https://wiki.jenkins-ci.org/display/JENKINS/Helix+TemHub+Plugin</url>
 
     <developers>
         <developer>
-            <id>vellu</id>
-            <name>Veli-Matti Luoto</name>
-            <email>vellu@deveo.com</email>
-            <organization>Deveo</organization>
-            <organizationUrl>https://deveo.com</organizationUrl>
+            <id>radley</id>
+            <name>Marcin Radlak</name>
+            <email>mradlak@perforce.com</email>
+            <organization>Perforce</organization>
+            <organizationUrl>https://www.perforce.com</organizationUrl>
         </developer>
     </developers>
 
@@ -42,9 +42,9 @@
     </dependencies>
 
     <scm>
-        <connection>scm:git:git@github.com:jenkinsci/deveo-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:jenkinsci/deveo-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/deveo-plugin</url>
+        <connection>scm:git:git@github.com:jenkinsci/helix-teamhub-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:jenkinsci/helix-teamhub-plugin.git</developerConnection>
+        <url>https://github.com/jenkinsci/helix-teamhub-plugin</url>
       <tag>HEAD</tag>
   </scm>
 

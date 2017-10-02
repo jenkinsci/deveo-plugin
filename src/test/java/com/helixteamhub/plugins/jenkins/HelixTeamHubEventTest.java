@@ -1,7 +1,7 @@
-package com.deveo.plugins.jenkins;
+package com.helixteamhub.plugins.jenkins;
 
-import com.deveo.plugin.jenkins.DeveoEvent;
-import com.deveo.plugin.jenkins.DeveoRepository;
+import com.helixteamhub.plugin.jenkins.HelixTeamHubEvent;
+import com.helixteamhub.plugin.jenkins.HelixTeamHubRepository;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.Before;
@@ -9,9 +9,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class DeveoEventTest  {
+public class HelixTeamHubEventTest  {
 
-    DeveoEvent event;
+    HelixTeamHubEvent event;
 
     @Before
     public void setup() {
@@ -19,12 +19,12 @@ public class DeveoEventTest  {
         String name = "test";
         String projectId = "platform";
         String repositoryId = "backend";
-        DeveoRepository repository = new DeveoRepository(projectId, repositoryId);
+        HelixTeamHubRepository repository = new HelixTeamHubRepository(projectId, repositoryId);
         String ref = "master";
         String revisionId = "d27327b131054d4a9922546aa5ecb14ba22f45ad";
         String buildUrl = "https://example.com/jenkins/job/test/42";
 
-        event = new DeveoEvent(operation, name, repository, ref, revisionId, buildUrl);
+        event = new HelixTeamHubEvent(operation, name, repository, ref, revisionId, buildUrl);
     }
 
     @Test

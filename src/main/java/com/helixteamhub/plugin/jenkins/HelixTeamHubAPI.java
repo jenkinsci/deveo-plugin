@@ -1,4 +1,4 @@
-package com.deveo.plugin.jenkins;
+package com.helixteamhub.plugin.jenkins;
 
 import javax.net.ssl.*;
 import java.io.BufferedReader;
@@ -13,15 +13,15 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 
-public class DeveoAPI {
+public class HelixTeamHubAPI {
 
     private String hostname;
 
-    private DeveoAPIKeys deveoAPIKeys;
+    private HelixTeamHubAPIKeys helixTeamHubAPIKeys;
 
-    public DeveoAPI(String hostname, DeveoAPIKeys deveoAPIKeys) {
+    public HelixTeamHubAPI(String hostname, HelixTeamHubAPIKeys helixTeamHubAPIKeys) {
         this.hostname = hostname;
-        this.deveoAPIKeys = deveoAPIKeys;
+        this.helixTeamHubAPIKeys = helixTeamHubAPIKeys;
     }
 
     private static HttpURLConnection getConnection(URL url) throws IOException {
@@ -70,15 +70,15 @@ public class DeveoAPI {
         }
     }
 
-    public void create(String endpoint, String content) throws DeveoException {
+    public void create(String endpoint, String content) throws HelixTeamHubException {
         URL url;
         HttpURLConnection connection;
         try {
             url = new URL(String.format("%s/api/%s", hostname, endpoint));
 
             connection = getConnection(url);
-            connection.setRequestProperty("Accept", "application/vnd.deveo.v1");
-            connection.setRequestProperty("Authorization", deveoAPIKeys.toString());
+            connection.setRequestProperty("Accept", "application/vnd.hth.v1");
+            connection.setRequestProperty("Authorization", helixTeamHubAPIKeys.toString());
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Content-Length", String.valueOf(content.getBytes().length));
@@ -105,15 +105,15 @@ public class DeveoAPI {
                     // Ignore
                 } finally {
                     in.close();
-                    throw new DeveoException(String.format("%s %s - %s", connection.getResponseCode(), connection.getResponseMessage(), responseContent.toString()));
+                    throw new HelixTeamHubException(String.format("%s %s - %s", connection.getResponseCode(), connection.getResponseMessage(), responseContent.toString()));
                 }
             }
         } catch (MalformedURLException e) {
-            throw new DeveoException(String.format("Deveo API hostname could not be parsed: %s", hostname));
+            throw new HelixTeamHubException(String.format("Helix TeamHub API hostname could not be parsed: %s", hostname));
         } catch (ProtocolException e) {
-            throw new DeveoException(String.format("Deveo connection could not be established due to ProtocolException: %s", e.getMessage()));
+            throw new HelixTeamHubException(String.format("Helix TeamHub connection could not be established due to ProtocolException: %s", e.getMessage()));
         } catch (IOException e) {
-            throw new DeveoException(String.format("Deveo connection could not be established due to IOException: %s", e.getMessage()));
+            throw new HelixTeamHubException(String.format("Helix TeamHub connection could not be established due to IOException: %s", e.getMessage()));
         }
     }
 

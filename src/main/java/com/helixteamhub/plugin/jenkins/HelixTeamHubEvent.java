@@ -1,8 +1,8 @@
-package com.deveo.plugin.jenkins;
+package com.helixteamhub.plugin.jenkins;
 
 import net.sf.json.JSONObject;
 
-public class DeveoEvent {
+public class HelixTeamHubEvent {
 
     private String target = "build";
     private String operation;
@@ -13,10 +13,10 @@ public class DeveoEvent {
     private String[] commits;
     private String[] resources;
 
-    public DeveoEvent(String operation, String name, DeveoRepository deveoRepository, String ref, String revisionId, String buildUrl) {
+    public HelixTeamHubEvent(String operation, String name, HelixTeamHubRepository helixTeamHubRepository, String ref, String revisionId, String buildUrl) {
         this.name = name;
-        this.project = deveoRepository.getProjectId();
-        this.repository = deveoRepository.getId();
+        this.project = helixTeamHubRepository.getProjectId();
+        this.repository = helixTeamHubRepository.getId();
         this.ref = ref;
         this.operation = operation;
         this.commits = new String[]{revisionId};

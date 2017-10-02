@@ -1,6 +1,6 @@
-# Deveo Jenkins Notification Plugin [![Build Status](https://jenkins.ci.cloudbees.com/buildStatus/icon?job=plugins/deveo-plugin)](https://jenkins.ci.cloudbees.com/job/plugins/job/deveo-plugin/)
+# Helix TeamHub Jenkins Notification Plugin [![Build Status](https://jenkins.ci.cloudbees.com/buildStatus/icon?job=plugins/helix-teamhub-plugin)](https://jenkins.ci.cloudbees.com/job/plugins/job/helix-teamhub-plugin/)
 
-Use this plugin to create build events to Deveo from your Jenkins builds. See the [official documentation](https://wiki.jenkins-ci.org/display/JENKINS/Deveo+Plugin) for more information.
+Use this plugin to create build events to Helix TeamHub from your Jenkins builds. See the [official documentation](https://wiki.jenkins-ci.org/display/JENKINS/Helix+TeamHub+Plugin) for more information.
 
 ## Contributing
 
@@ -34,9 +34,9 @@ If you are only doing template changes, you can simply hit Enter on the console 
 
 You can now access Jenkins from your host machine on [http://10.11.12.100:8080/jenkins](http://10.11.12.100:8080/jenkins).
 
-Finally, follow [the official plugin configuration documentation](https://wiki.jenkins-ci.org/display/JENKINS/Deveo+Plugin#DeveoPlugin-Configuringtheplugin) to set things up.
+Finally, follow [the official plugin configuration documentation](https://wiki.jenkins-ci.org/display/JENKINS/Helix+TeamHub+Plugin#HelixTeamHubPlugin-Configuringtheplugin) to set things up.
 
-### Configuring SSH access to Deveo development environment
+### Configuring SSH access to Helix TeamHub development environment
 
 For you to be able to configure jobs with SSH URLs, you'll need to generate a new SSH key pair for the user that is running the Jenkins process on your virtual machine.
 
@@ -45,6 +45,6 @@ SSH into the machine and generate a new SSH key
     $ vagrant ssh
     $ ssh-keygen -t rsa
 
-This will generate a private key (`/home/vagrant/.ssh/id_rsa`) and a public key (`/home/vagrant/id_rsa.pub`). Copy the contents of the public key and use it to create a new SSH key to Deveo. The SSH key should belong to a bot that belongs to the project your configured repository belongs to.
+This will generate a private key (`/home/vagrant/.ssh/id_rsa`) and a public key (`/home/vagrant/id_rsa.pub`). Copy the contents of the public key and use it to create a new SSH key to Helix TeamHub. The SSH key should belong to a bot that belongs to the project your configured repository belongs to.
 
 When you're done, your Jenkins job should be able to clone the configured repository successfully via SSH.

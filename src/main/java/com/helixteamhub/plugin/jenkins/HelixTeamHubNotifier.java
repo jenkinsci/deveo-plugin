@@ -1,4 +1,4 @@
-package com.deveo.plugin.jenkins;
+package com.helixteamhub.plugin.jenkins;
 
 import hudson.EnvVars;
 import hudson.Extension;
@@ -19,7 +19,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import java.io.IOException;
 import java.io.PrintStream;
 
-public class DeveoNotifier extends Notifier {
+public class HelixTeamHubNotifier extends Notifier {
 
     private static final String SCM_GIT = "hudson.plugins.git.GitSCM";
 
@@ -30,7 +30,7 @@ public class DeveoNotifier extends Notifier {
     private final String accountKey;
 
     @DataBoundConstructor
-    public DeveoNotifier(String accountKey) {
+    public HelixTeamHubNotifier(String accountKey) {
         this.accountKey = accountKey;
     }
 
@@ -49,7 +49,7 @@ public class DeveoNotifier extends Notifier {
 
     @Override
     public boolean perform(AbstractBuild build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        notifyDeveo(build, listener);
+        notifyHelixTeamHub(build, listener);
 
         return true;
     }
@@ -122,11 +122,11 @@ public class DeveoNotifier extends Notifier {
         return repositoryURL;
     }
 
-    private DeveoAPIKeys getApiKeys(DeveoBuildStepDescriptor descriptor) {
-        return new DeveoAPIKeys(descriptor.getPluginKey(), descriptor.getCompanyKey(), getAccountKey());
+    private HelixTeamHubAPIKeys getApiKeys(HelixTeamHubBuildStepDescriptor descriptor) {
+        return new HelixTeamHubAPIKeys(descriptor.getCompanyKey(), getAccountKey());
     }
 
-    public void notifyDeveo(AbstractBuild build, BuildListener listener) {
+    public void notifyHelixTeamHub(AbstractBuild build, BuildListener listener) {
         EnvVars environment = getEnvironment(build, listener);
         SCM scm = build.getProject().getScm();
 
@@ -137,53 +137,48 @@ public class DeveoNotifier extends Notifier {
         String buildUrl = getBuildUrl(environment);
         String repositoryURL = getRepositoryURL(scm, environment);
 
-        DeveoRepository repository;
+        HelixTeamHubRepository repository;
 
         try {
-            repository = new DeveoRepository(repositoryURL);
-        } catch (DeveoURLException ex) {
-            logError(listener, "The configured repository URL is not a Deveo URL.", ex);
+            repository = new HelixTeamHubRepository(repositoryURL);
+        } catch (HelixTeamHubURLException ex) {
+            logError(listener, "The configured repository URL is not a Helix TeamHub URL.", ex);
             return;
         }
 
-        DeveoAPI api = new DeveoAPI(getDescriptor().getHostname(), getApiKeys(getDescriptor()));
-        DeveoEvent event = new DeveoEvent(operation, jobName, repository, ref, revisionId, buildUrl);
+        HelixTeamHubAPI api = new HelixTeamHubAPI(getDescriptor().getHostname(), getApiKeys(getDescriptor()));
+        HelixTeamHubEvent event = new HelixTeamHubEvent(operation, jobName, repository, ref, revisionId, buildUrl);
 
         try {
             api.create("events", event.toJSON());
-        } catch (DeveoException ex) {
+        } catch (HelixTeamHubException ex) {
             logError(listener, "Failed to create event.", ex);
         }
     }
 
     private void logError(BuildListener listener, String message, Exception ex) {
         PrintStream logger = listener.getLogger();
-        logger.println(String.format("Deveo: %s", message));
-        logger.println(String.format("Deveo: %s", ex.getMessage()));
+        logger.println(String.format("Helix TeamHub: %s", message));
+        logger.println(String.format("Helix TeamHub: %s", ex.getMessage()));
     }
 
     @Override
-    public DeveoBuildStepDescriptor getDescriptor() {
-        return (DeveoBuildStepDescriptor) super.getDescriptor();
+    public HelixTeamHubBuildStepDescriptor getDescriptor() {
+        return (HelixTeamHubBuildStepDescriptor) super.getDescriptor();
     }
 
     @Extension
-    public static final class DeveoBuildStepDescriptor extends BuildStepDescriptor<Publisher> {
+    public static final class HelixTeamHubBuildStepDescriptor extends BuildStepDescriptor<Publisher> {
 
-        private String hostname = "https://app.deveo.com";
-        private String pluginKey = "3c94d47d6257ca0d3bc54a9b6a91aa64";
+        private String hostname = "https://helixteamhub.cloud";
         private String companyKey = "";
 
-        public DeveoBuildStepDescriptor() {
+        public HelixTeamHubBuildStepDescriptor() {
             load();
         }
 
         public String getHostname() {
             return hostname;
-        }
-
-        public String getPluginKey() {
-            return pluginKey;
         }
 
         public String getCompanyKey() {
@@ -197,13 +192,12 @@ public class DeveoNotifier extends Notifier {
 
         @Override
         public String getDisplayName() {
-            return "Deveo Notification";
+            return "Helix TeamHub Notification";
         }
 
         @Override
         public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
             this.hostname = json.getString("hostname");
-            this.pluginKey = json.getString("pluginKey");
             this.companyKey = json.getString("companyKey");
 
             save();
